@@ -4,10 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const jwt = require('jsonwebtoken')
+var mongoose = require("mongoose") 
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var postsRouter = require('./routes/posts')
 
 require('dotenv').config()
 
@@ -25,8 +27,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users',authToken, usersRouter);
-app.use( '/post')
+app.use('/users', usersRouter);
+app.use( '/posts',authToken, postsRouter)
+
+
+//connect to mongoDB
+const mongoDB = process.env.MONGODB_URI ;
+
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 //authorize token
 function authToken(req,res,next){

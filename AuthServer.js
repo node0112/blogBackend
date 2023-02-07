@@ -4,12 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const jwt = require('jsonwebtoken')
+var mongoose = require("mongoose") 
+
+
+const usersController = require('./controllers/userController')
 
 
 
 require('dotenv').config()
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +26,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use( '/post')
+
+
+//handle all authentication and token generation from this server
+
+
+//--connect to database
+
+const mongoDB = process.env.MONGODB_URI ;
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+//---------
+
 
 
 //Sample Users DB
@@ -45,35 +63,33 @@ let usersModel = [
 ]
 
 
-app.post('/auth/login',(req,res,next)=>{
-    //search user and if user exist then login
-    let dbUser = usersModel.filter(dbUser => dbUser.email === req.body.email)
-    dbUser = dbUser[0]
-    if(dbUser !== null)  loginUser(dbUser,res,req)
-    else res.sendStatus(403)
+app.post('/auth/login', usersController.login_user)
+
+
+app.post('/auth/signup', usersController.create_user)
+
+app.post('/auth/token', (req,res)=>{
+    const refreshToken = req.headers.token
+    if(refreshToken === null ) return res.sendStatus(401)
+    if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403) //check if token is in database
+
+    //if it passes all checks then 
+    jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET,(err, user)=>{
+        if(err) return res.sendStatus(403)
+        const accessToken = genreateAccessToken({name: user.email})
+        res.json({accessToken})
+    })
 })
 
-function loginUser(dbUser,res,req){
-    console.log(dbUser.email)
+app.delete('/auth/logout', (req,res)=>{
+    //delete from database
+    refreshTokens = refreshTokens.filter(token => token !== req.headers.token) //delete from db
+    console.log(refreshTokens)
+    res.sendStatus(204)
+})
 
-    const user = { //find user from db
-        username: dbUser.username,
-        email: dbUser.email,
-        posts: dbUser.posts
-    }
-    const accessToken = genreateAccessToken(user)
-    const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN_SECRET)
-    res.json({
-        user : user,
-        accessToken : accessToken,
-        refreshToken: refreshToken
-    })
-}
+let refreshTokens = [] //emulate tokens stored in db
 
-
-function genreateAccessToken(user){
-    return jwt.sign(user,process.env.TOKEN_SECRET, {expiresIn : '60s'})
-}
 
 
 // catch 404 and forward to error handler

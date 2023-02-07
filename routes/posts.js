@@ -18,3 +18,18 @@ let posts = [
         author: 'specterharvey@gmail.com'
     },
 ]
+
+router.use('/post',(req,res,next)=>{ //create a post
+    console.log(req.body.post)
+    posts.push(req.body.post)
+    res.json(posts[posts.length-1])
+})
+  
+
+  
+router.get('/posts', function(req, res, next) { // get all posts for that user
+const user = req.user
+res.json(posts.filter(post => post.email ===  user.email)); //only returns users post
+});
+
+module.exports = router
