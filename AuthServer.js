@@ -42,27 +42,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 
 
-//Sample Users DB
-let usersModel = [
-    {
-        username: 'test',
-        email: "joemama@gmail.com",
-        posts: "none"
-    },
-    {
-        username: 'siddiboi',
-        email: "spectreharvey@gmail.com",
-        posts: "4"
-    },
-    {
-        username: 'dexter',
-        email: "dextermorgan@gmail.com",
-        posts: "10"
-    },
-
-]
-
-
 app.post('/auth/login', usersController.login_user)
 
 

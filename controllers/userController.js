@@ -96,22 +96,23 @@ exports.login_user = [
     //find user in database
       User.find({email : req.body.email},async (err,user)=>{
       if(user.length){
-        user = user[0]
-        if(await bcrypt.compare(req.body.password, user.password)){
-          loginUser(user,res)
+        user = user[0] //get first user from array
+        if(await bcrypt.compare(req.body.password, user.password)){ //check passowrd after decrypting it
+          loginUser(user,res,next) //function to login user and sending tokens
         }
         else res.sendStatus(403)
       }
-      else return res.sendStatus(404)
+      else return res.sendStatus(404) //incase the user isn't found
     })
   }
 ]
 
-function loginUser(user,res){
+function loginUser(user,res,next){
+  user = user.toJSON()
+  let userEmail = user.email;
   const accessToken = genreateAccessToken(user)
   const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
-
-  TokensModel({refreshToken: refreshToken, accessToken: accessToken}).save(err =>{
+  TokensModel({user:userEmail, refreshToken: refreshToken, accessToken: accessToken}).save(err =>{
     if(err) return next(err)
     res.json({ //send response if no error
       user : user,
