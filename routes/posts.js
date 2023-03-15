@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const postsController = require('../controllers/postsController')
 
 let posts = [
     {
@@ -24,7 +25,10 @@ router.use('/post',(req,res,next)=>{ //create a post
     posts.push(req.body.post)
     res.json(posts[posts.length-1])
 })
-  
+
+router.post('/authTest',
+    postsController.fetchPosts
+)
 
   
 router.get('/posts', function(req, res, next) { // get all posts for that user

@@ -6,7 +6,6 @@ var logger = require('morgan');
 const jwt = require('jsonwebtoken')
 var mongoose = require("mongoose") 
 
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts')
@@ -28,26 +27,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use( '/posts',authToken, postsRouter)
-
+app.use( '/posts',authToken,postsRouter)
 
 //connect to mongoDB
 const mongoDB = process.env.MONGODB_URI ;
+const helpers = require('./controllers/helpers/tokenHelpers')
+
 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 //authorize token
-function authToken(req,res,next){
+async function authToken(req,res,next){
   const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1] //is header exists then split it and get token
-  if(token == null) res.sendStatus(404)
-
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user)=>{
-    if(err) {return res.sendStatus(403)}
-    req.user = user
-    next()
+  const token = helpers.splitAuthToken(authHeader) ; //if header exists then split it and get token
+  if(token == null) return res.sendStatus(404) //send to signup page
+  jwt.verify(token,process.env.TOKEN_SECRET,(err)=>{
+    if(err){
+        res.sendStatus(403)
+    }
+    else{
+        next()
+    }
   })
 }
 
@@ -68,7 +70,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-
+app.listen("3000")
 
 
 module.exports = app;

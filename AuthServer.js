@@ -47,18 +47,8 @@ app.post('/auth/login', usersController.login_user)
 
 app.post('/auth/signup', usersController.create_user)
 
-app.post('/auth/token', (req,res)=>{
-    const refreshToken = req.headers.token
-    if(refreshToken === null ) return res.sendStatus(401)
-    if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403) //check if token is in database
+app.post('/auth/accessToken', usersController.createAccessToken)
 
-    //if it passes all checks then 
-    jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET,(err, user)=>{
-        if(err) return res.sendStatus(403)
-        const accessToken = genreateAccessToken({name: user.email})
-        res.json({accessToken})
-    })
-})
 
 app.delete('/auth/logout', (req,res)=>{
     //delete from database
@@ -67,7 +57,6 @@ app.delete('/auth/logout', (req,res)=>{
     res.sendStatus(204)
 })
 
-let refreshTokens = [] //emulate tokens stored in db
 
 
 

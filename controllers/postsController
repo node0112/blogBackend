@@ -1,0 +1,33 @@
+const User = require('../models/UserModel')
+const bcrypt = require("bcryptjs")
+const passport = require("passport");
+const { check, validationResult } = require("express-validator"); //validator
+const async = require("async")
+const jwt = require("jsonwebtoken")
+
+const PostModel = require('../models/PostModel')
+const helpers = require("./helpers/tokenHelpers")
+
+const isAccessTokenValid = helpers.isAccessTokenValid
+const splitAuthToken = helpers.splitAuthToken
+
+exports.fetchPosts = 
+     async (req,res,next)=>{
+        // const errors = validationResult(req)
+        res.json({msg: "holyDamn"})
+       
+    }
+
+exports.addComment = [
+    check("comment")
+     .trim()
+     .isLength({min: 5})
+     .withMessage("Comment must have at least 5 characters")
+     .escape(),
+    check("date")
+    .trim()
+    .escape(),
+    async (req,res)=>{
+        
+    }
+]
