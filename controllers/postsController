@@ -1,6 +1,6 @@
 const User = require('../models/UserModel')
 const bcrypt = require("bcryptjs")
-const passport = require("passport");
+const passport = require("passport"); // use other forms of auth
 const { check, validationResult } = require("express-validator"); //validator
 const async = require("async")
 const jwt = require("jsonwebtoken")
@@ -11,11 +11,20 @@ const helpers = require("./helpers/tokenHelpers")
 const isAccessTokenValid = helpers.isAccessTokenValid
 const splitAuthToken = helpers.splitAuthToken
 
-exports.fetchPosts = 
+
+
+exports.createPost = [ //create a post for user
+    check("title")
+    .trim()
+    .isLength({min: 5})
+    .withMessage("Title must have at least 5 characters"),
+]
+exports.fetchPosts = //fetch posts for user
      async (req,res,next)=>{
         // const errors = validationResult(req)
-        res.json({msg: "holyDamn"})
-       
+        const userId = req.params.userid
+        console.log(userId)
+        res.send(200)
     }
 
 exports.addComment = [
@@ -24,10 +33,30 @@ exports.addComment = [
      .isLength({min: 5})
      .withMessage("Comment must have at least 5 characters")
      .escape(),
+
     check("date")
+     .trim()
+     .isDate()
+     .withMessage("Invalid Date")
+     .escape(),
+
+    check("email")
+    .isEmail()
+    .withMessage("Invalid email")
     .trim()
     .escape(),
+
     async (req,res)=>{
-        
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.json(errors)
+        }
+        const date = req.body.date
+        const text = req.body.comment
+        const user = req.body.email
+        const comment = {
+            user: user,
+            date: date
+        }
     }
 ]
