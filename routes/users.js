@@ -12,7 +12,7 @@ router.get('/:userid/posts', postsController.fetchPosts) // get all posts for us
 
 router.get('/:userid/drafts', postsController.getDrafts) // fetch drafts [working]
 
-router.get('/:userid', userController.getUserInfo)
+router.get('/:userid', userController.getUserInfo) 
 
 
 

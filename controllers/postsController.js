@@ -37,7 +37,7 @@ exports.fetchPosts = //fetch posts for user     <------needs testing -------!!!!
     }
 
 exports.getPosts = //get all posts to show on homepage
-    async (req,res,next)=>{
+ async (req,res,next)=>{
         let posts = PostModel.find().limit(10)
         return res.json({
             posts
@@ -105,33 +105,34 @@ exports.fetchComments =
 exports.upvotePost = async(req,res,next)=>{
     //increase likes by one
     const postid = req.params.postid
-    let result = await PostModel.findOneAndUpdate({postid}, {$inc: { likes: 1}})
+    let result = await PostModel.findByIdAndUpdate(postid, {$inc: { likes: 1}})
     res.json({result})
 }
 
 exports.downvotePost = async(req,res,next)=>{
     //increase likes by one
     const postid = req.params.postid
-    let result = await PostModel.findOneAndUpdate({postid}, {$inc: { likes: -1}})
+    let result = await PostModel.findByIdAndUpdate(postid, {$inc: { likes: -1}})
     res.json({result})
 }
 
 exports.upvoteComment = async(req,res,next)=>{
     //increase likes by one
-    const postid = req.params.postid
-    let result = await PostModel.findOneAndUpdate({post: postid}, {$inc: { likes: 1}})
+    const id = req.params.commentid
+    await CommentModel.findByIdAndUpdate(id, {$inc: { likes: 1}})
+    let result = await CommentModel.findById(id)
     res.json({result})
 }
 
 exports.downvoteComment = async(req,res,next)=>{
     //increase likes by one
-    const postid = req.params.postid
-    let result = await CommentModel.findOneAndUpdate({post: postid}, {$inc: { likes: -1}})
+    const id = req.params.commentid
+    await CommentModel.findByIdAndUpdate(id, {$inc: { likes: -1}})
+    let result = await CommentModel.findById(id)
     res.json({result})
 }
 
-exports.getDrafts = 
-    async (req,res,next) => {
+exports.getDrafts = async (req,res,next) => {
     const userid = req.params.userid
     //function to find drafts in user's posts
 

@@ -16,16 +16,15 @@ router.post('/:postid/upvote', postsController.upvotePost) //upvote a post [work
 
 router.post('/:postid/downvote', postsController.downvotePost) //upvote a post  [working]
 
-router.post('/:postid/comment/upvote', postsController.upvoteComment) // add comment to post
+router.post('/comment/:commentid/upvote', postsController.upvoteComment) // add comment to post [works]
 
-router.post('/:postid/comment/downvote', postsController.downvoteComment) // add comment to post
+router.post('/comment/:commentid/downvote', postsController.downvoteComment) // add comment to post [works]
 
 router.get('/:postid/edit', postsController.fetchPost) //fetch post to edit 
 
 router.post('/:postid/edit', postsController.editPost) //send updated post to database
 
-router.post('/:postid/remove', postsController.removePost) //remove post from db
-
+router.post('/:postid/remove', postsController.removePost) //remove post from db [works]
 
 
 module.exports = router
