@@ -1,11 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-//require postmodel
-/* GET users listing. */
+const postsController = require('../controllers/postsController')
+const userController = require('../controllers/userController')
 
 
-//sample posts
+//get posts for user or create a post for user
+router.post('/:userid/post', postsController.createPost) // create post for specified user [needs completion in controller]
+
+router.get('/:userid/posts', postsController.fetchPosts) // get all posts for user [working]
+
+router.get('/:userid/drafts', postsController.getDrafts) // fetch drafts [working]
+
+router.get('/:userid', userController.getUserInfo)
+
 
 
 

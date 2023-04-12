@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./",
-    "devstart": "nodemon ./app.js",
+    "devstart": "nodemon app.js",
     "authStart": "nodemon AuthServer.js"
   },
   "dependencies": {
