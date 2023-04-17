@@ -36,15 +36,12 @@ exports.fetchPosts = //fetch posts for user     <------needs testing -------!!!!
         })
     }
 
-exports.getPosts = //get all posts to show on homepage
- async (req,res,next)=>{
-        let posts = PostModel.find().limit(10)
-        return res.json({
-            posts
-        })
+exports.getPosts =  async (req,res,next)=>{ 
+    let posts = await PostModel.find().limit(10)
+    res.json({posts})
 }
 
-exports.fetchPost = async (req,res,next)=>{ //------test!!!!<--------------! / / / / / / 
+exports.fetchPost = async (req,res,next)=>{ 
     //get single post from db
     const postid = req.params.postid
     const post = await PostModel.findById(postid)
