@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./",
+    "start authServer": "node AuthServer.js",
     "devstart": "nodemon app.js",
     "authStart": "nodemon AuthServer.js"
   },
