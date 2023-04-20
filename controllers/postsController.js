@@ -37,7 +37,7 @@ exports.fetchPosts = //fetch posts for user     <------needs testing -------!!!!
     }
 
 exports.getPosts =  async (req,res,next)=>{ 
-    let posts = await PostModel.find().limit(10)
+    let posts = await PostModel.find({draft: false}).limit(10)
     res.json({posts})
 }
 

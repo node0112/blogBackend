@@ -8,6 +8,7 @@ const PostSchema = new mongoose.Schema({
     date: {type: Date, required: true},
     likes: {type: Number},
     content: {type: String, required: true},
+    author: {type: String, required: true},
     draft: {type: Boolean, required: true},
     comments: [{type: Schema.Types.ObjectId, ref: "Comment"}]
 })
