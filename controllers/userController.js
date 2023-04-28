@@ -138,7 +138,6 @@ exports.getUserInfo = async (req,res,next)=>{ //-------test-----get user posts a
 }
 
 async function loginUser(user,res,next){
-  user = user.toJSON()
   let userEmail = user.email.toString();
   let existingToken = await TokensModel.find({user: userEmail}) //finds token for the user in the database
   const accessToken = await generateAccessToken(userEmail)

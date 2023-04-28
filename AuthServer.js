@@ -50,7 +50,7 @@ app.post('/auth/signup', usersController.create_user)
 app.post('/auth/accessToken', usersController.createAccessToken)
 
 
-app.delete('/auth/logout', (req,res)=>{
+app.post('/auth/logout', (req,res)=>{
     //delete from database
     refreshTokens = refreshTokens.filter(token => token !== req.headers.token) //delete from db
     console.log(refreshTokens)
