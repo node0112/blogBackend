@@ -154,7 +154,8 @@ async function loginUser(user,res,next){
       res.json({
         user: userRes,
         refreshToken: dbrefreshToken,
-        accessToken
+        accessToken,
+        errors: []
       })
     }
 
@@ -163,7 +164,8 @@ async function loginUser(user,res,next){
       res.json({
         user : userRes,
         refreshToken,
-        accessToken
+        accessToken,
+        errors: []
       })
     }
     //find user from database
