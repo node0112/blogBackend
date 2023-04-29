@@ -106,7 +106,9 @@ exports.login_user = [
       if(await bcrypt.compare(req.body.password, user.password)){ //if passwords match
         loginUser(user,res,next) //login user and send tokens
       }
-      else res.sendStatus(403)
+      else res.json({
+        errors: [{msg: "Password Incorrect"}]
+      })
     }
     else return res.sendStatus(404)
   }
