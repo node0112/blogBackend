@@ -179,7 +179,8 @@ async function loginUser(user,res,next){
     let newTokensRes = { //data to send to user
       user: userDB,
       refreshToken: refreshToken,
-      accessToken: accessToken
+      accessToken: accessToken,
+      errors : []
     }
     TokensModel(newTokensDB).save((err)=>{
       if(err) return next(err)
