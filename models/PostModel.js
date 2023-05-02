@@ -10,7 +10,9 @@ const PostSchema = new mongoose.Schema({
     content: {type: String, required: true},
     author: {type: String, required: true},
     draft: {type: Boolean, required: true},
-    comments: [{type: Schema.Types.ObjectId, ref: "Comment"}]
+    comments: [{type: Schema.Types.ObjectId, ref: "Comment"}],
+    backgroundColor : {type: String, required: true},
+    textColor: {type: String, required: true},
 })
 
 module.exports = mongoose.model("Post", PostSchema)
