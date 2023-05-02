@@ -174,7 +174,8 @@ async function loginUser(user,res,next){
     const accessToken = generateAccessToken(userEmail)
     const refreshToken = generateRefreshToken(userEmail)
     let userDB = await createUserRes(userEmail)
-    let newTokensDB= { //data to store in db
+    console.log(userDB.id)
+    let newTokensDB= { //token data to store in db
       user: userEmail,
       refreshToken: refreshToken,
     }
@@ -199,9 +200,11 @@ async function createUserRes(userEmail){ //format user to send as a response
   let user = await findUser(userEmail)
   user = user[0]
   user = user.toJSON()
+  console.log(user)
   user = { //manipulate data to send only required fields to the user
     username: user.username,
-    email: user.email
+    email: user.email,
+    id: user._id
   }
   return user
 }
