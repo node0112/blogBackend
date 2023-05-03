@@ -49,14 +49,15 @@ exports.createPost = [ //create a post for user
             res.json(errors)
             return
         }
+        //add data to req variables and send to database
         let userid =  req.params.userid
-        let title, date, content, draft, backgorundColor, textColor
+        let title, date, content, draft, backgroundColor, textColor
         const data = req.body
         title = data.title
         date = data.date
         content = data.content
         draft = data.draft
-        backgorundColor = data.backgorundColor
+        backgroundColor = data.backgroundColor
         textColor = data.textColor
         const post = {
             title,
@@ -66,7 +67,7 @@ exports.createPost = [ //create a post for user
             content,
             draft,
             comments: [{}],
-            backgorundColor,
+            backgroundColor,
             textColor
         }
         PostModel(post).save((err, newPost)=>{
@@ -75,7 +76,6 @@ exports.createPost = [ //create a post for user
                 postId: newPost.id
             })
         })
-        //add data to req variables and send to database
     }
 ]
 
