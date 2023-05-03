@@ -60,7 +60,7 @@ exports.createPost = [ //create a post for user
         textColor = data.textColor
         const post = {
             title,
-            user: userId,
+            user: userid,
             date,
             likes: 0,
             content,
