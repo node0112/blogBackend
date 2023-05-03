@@ -48,7 +48,7 @@ async function authToken(req,res,next){
   if(token == null) return res.sendStatus(404) //send to signup page
   jwt.verify(token,process.env.TOKEN_SECRET,(err)=>{
     if(err){
-        res.json(err)
+        res.json(err.message)
     }
     else{
         next()
