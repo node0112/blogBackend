@@ -28,7 +28,7 @@ exports.splitAuthToken = function(authHeader){
 }
 
 exports.generateAccessToken= function (userEmail){ //generates access tokens and saves them in db
-    const token = jwt.sign({user: userEmail}, process.env.TOKEN_SECRET, {expiresIn : "10m"})
+    const token = jwt.sign({user: userEmail}, process.env.TOKEN_SECRET, {expiresIn : "20m"})
     return token
 }
 
