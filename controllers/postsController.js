@@ -18,10 +18,63 @@ exports.createPost = [ //create a post for user
     check("title")
     .trim()
     .isLength({min: 5})
-    .withMessage("Title must have at least 5 characters"),
+    .withMessage("Title must have at least 5 characters")
+    .escape(),
+    
+    check("backgroundColor")
+    .trim()
+    .isLength({min: 2})
+    .withMessage("Error")
+    .escape(),
+
+    check("textColor")
+    .trim()
+    .isLength({min: 2})
+    .withMessage("Error")
+    .escape(),
+
+    check("content")
+    .trim()
+    .isLength({min: 10})
+    .withMessage("Please Write A Post")
+    .escape(),
+
+    check("draft")
+    .trim()
+    .escape(),
+
     async (req,res,next)=>{
         const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            res.json(errors)
+            return
+        }
         let userid =  req.params.userid
+        let title, date, content, draft, backgorundColor, textColor
+        const data = req.body
+        title = data.title
+        date = data.date
+        content = data.content
+        draft = data.draft
+        backgorundColor = data.backgorundColor
+        textColor = data.textColor
+        const post = {
+            title,
+            user: userId,
+            date,
+            likes: 0,
+            content,
+            draft,
+            comments: [{}],
+            backgorundColor,
+            textColor
+        }
+        PostModel(post).save((err, newPost)=>{
+            if(err) return next(err)
+            res.json({
+                postId: newPost.id
+            })
+        })
         //add data to req variables and send to database
     }
 ]
