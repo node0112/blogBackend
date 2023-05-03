@@ -8,6 +8,8 @@ router.post('/:postid/comment', postsController.addComment) // add comment to po
 
 router.get('/:postid/comments', postsController.fetchComments) //get comments for post
 
+router.post('/:userid/post', postsController.createPost) // create post for specified user [needs completion in controller]
+
 //--------------------===== test routes below ====----------------------------->
 
 router.get('/:postid', postsController.fetchPost) // get specific post [working ]

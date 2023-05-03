@@ -6,7 +6,6 @@ const userController = require('../controllers/userController')
 
 
 //get posts for user or create a post for user
-router.post('/:userid/post', postsController.createPost) // create post for specified user [needs completion in controller]
 
 router.get('/:userid/posts', postsController.fetchPosts) // get all posts for user [working]
 

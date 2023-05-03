@@ -117,20 +117,19 @@ exports.login_user = [
 exports.createAccessToken = async function (req,res){
   const refreshToken = req.body.refreshToken
   if(refreshToken === null) return res.sendStatus(401)
-  const userEmail = req.body.user //used to seach up tokens for the user
+  const userEmail = req.body.user //used to search up tokens for the user
   const dbRefreshToken = TokensModel.findOne({user: userEmail})
 
-  if(dbRefreshToken === null){
+  if(dbRefreshToken === null){ //if there's no refresh token
     return res.sendStatus(401)
   }
-  let tokenValid = await isRefreshTokenValid(refreshToken)
+  let tokenValid = await isRefreshTokenValid(refreshToken) //check refresh token
   if(tokenValid){
     const accessToken = generateAccessToken(userEmail)
     return res.json({
       accessToken : accessToken
     })
   }
-
   else return res.sendStatus(403)
 
 }

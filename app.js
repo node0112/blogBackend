@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/',indexRouter);
-app.use('/user', usersRouter);
+app.use('/user',usersRouter);
 app.use( '/post',authToken,postsRouter)
 
 //connect to mongoDB
