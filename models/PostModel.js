@@ -8,6 +8,7 @@ const PostSchema = new mongoose.Schema({
     date: {type: Date, required: true},
     likes: {type: Number},
     content: {type: String, required: true},
+    content: {type: String, required: true, minLength: 3},
     draft: {type: Boolean, required: true},
     backgroundColor : {type: String, required: true},
     textColor: {type: String, required: true},

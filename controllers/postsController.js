@@ -39,6 +39,12 @@ exports.createPost = [ //create a post for user
     .withMessage("Please Write A Post")
     .escape(),
 
+    check("author")
+    .trim()
+    .isLength({min: 3})
+    .withMessage("Please Sign In")
+    .escape(),
+
     check("draft")
     .trim()
     .escape(),
@@ -51,7 +57,7 @@ exports.createPost = [ //create a post for user
         }
         //add data to req variables and send to database
         let userid =  req.params.userid
-        let title, date, content, draft, backgroundColor, textColor
+        let title, date, content, draft, backgroundColor, textColor, author
         const data = req.body
         title = data.title
         date = data.date
@@ -59,9 +65,11 @@ exports.createPost = [ //create a post for user
         draft = data.draft
         backgroundColor = data.backgroundColor
         textColor = data.textColor
+        author: data.author
         const post = {
             title,
             user: userid,
+            author,
             date,
             likes: 0,
             content,
