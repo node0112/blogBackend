@@ -7,7 +7,7 @@ const PostSchema = new mongoose.Schema({
     user: {type: Schema.Types.ObjectId, required: true},
     date: {type: Date, required: true},
     likes: {type: Number},
-    content: {type: String, required: true},
+    summary: {type: String, required: true, minLength: 5},
     content: {type: String, required: true, minLength: 3},
     draft: {type: Boolean, required: true},
     backgroundColor : {type: String, required: true},

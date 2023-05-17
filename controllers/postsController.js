@@ -195,7 +195,7 @@ exports.getDrafts = async (req,res,next) => {
     //function to find drafts in user's posts
 
     let draftPosts = await PostModel.find({user: userid, draft: true})
-    return res.json({posts : draftPosts})
+    return res.json({posts : draftPosts, errors:[]})
 }
 
 exports.editPost = [ //post edited post to db after checking for errors
