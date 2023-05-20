@@ -206,7 +206,9 @@ exports.getDrafts = async (req,res,next) => {
     return res.json({posts : draftPosts, errors:[]})
 }
 
-exports.editPost = [ //post edited post to db after checking for errors
+
+//update posts here
+exports.updatePost = [ //post edited post to db after checking for errors
     //only allow editing in body
     function(){} //identify and sanitize all the inputs
     ,
@@ -216,6 +218,18 @@ exports.editPost = [ //post edited post to db after checking for errors
         }
     }
 ]
+
+exports.publishPost = async(req,res,next)=>{
+    const id = req.params.postId
+    PostModel.findOneAndUpdate(id, {draft : false},(err)=>{
+        if(err) res.sendStatus(500)
+        else{
+            res.sendStatus(200)
+        }
+    })
+}
+
+
 
 exports.removePost = async(req,res,next)=>{
    //delete post from db using id

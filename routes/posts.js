@@ -22,9 +22,9 @@ router.post('/comment/:commentid/upvote', postsController.upvoteComment) // add 
 
 router.post('/comment/:commentid/downvote', postsController.downvoteComment) // add comment to post [works]
 
-router.get('/:postid/edit', postsController.fetchPost) //fetch post to edit 
+router.post('/:postid/edit', postsController.updatePost) //send updated post to database
 
-router.post('/:postid/edit', postsController.editPost) //send updated post to database
+router.post('/:postid/publish', postsController.publishPost) //publish post by setting draft mode to false
 
 router.post('/:postid/remove', postsController.removePost) //remove post from db [works]
 
