@@ -220,8 +220,8 @@ exports.updatePost = [ //post edited post to db after checking for errors
 ]
 
 exports.publishPost = async(req,res,next)=>{
-    const id = req.params.postid
-    PostModel.findOneAndUpdate(id, {draft : false},(err)=>{
+    const postid = req.params.postid
+    PostModel.findByIdAndUpdate( postid, {draft : false},(err)=>{
         if(err) res.sendStatus(500)
         else{
             res.sendStatus(200)
