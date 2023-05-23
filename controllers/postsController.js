@@ -266,7 +266,7 @@ exports.updatePost = [ //post edited post to db after checking for errors
         PostModel.findByIdAndUpdate(postID , post, (err,updatedDoc)=>{
             if(err) res.json(err)
             else{
-                res.sendStatus(200)
+                res.sendStatus(updatedDoc)
             }
         })
     }
