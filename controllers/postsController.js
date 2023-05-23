@@ -263,10 +263,11 @@ exports.updatePost = [ //post edited post to db after checking for errors
             backgroundColor,
             textColor
         }
+
         PostModel.findByIdAndUpdate(postID , post, (err,updatedDoc)=>{
-            if(err) res.json(err)
+            if(err) return next(err)
             else{
-                res.sendStatus(updatedDoc)
+                res.json(updatedDoc)
             }
         })
     }
