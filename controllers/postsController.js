@@ -209,13 +209,66 @@ exports.getDrafts = async (req,res,next) => {
 
 //update posts here
 exports.updatePost = [ //post edited post to db after checking for errors
+    //very similiar to create post but instead here we just edit the content and other minor details
     //only allow editing in body
-    function(){} //identify and sanitize all the inputs
-    ,
-    async (req,res,next)=>{
-        let post = { 
-            //paste default format of all posts here
+    check("backgroundColor")
+    .trim()
+    .isLength({min: 2})
+    .withMessage("Error")
+    .escape(),
+
+    check("textColor")
+    .trim()
+    .isLength({min: 2})
+    .withMessage("Error")
+    .escape(),
+
+    check("content")
+    .trim()
+    .isLength({min: 10})
+    .withMessage("Please Write A Post")
+    .escape(),
+
+    check("summary")
+    .trim()
+    .isLength({min: 10})
+    .withMessage('Error, try again later')
+    .escape(),
+
+    check("draft")
+    .trim()
+    .escape(),
+    
+    async (req,res)=>{
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            res.json(errors)
+            return
         }
+        //add data to req variables and send to database
+        const postID = req.params.postid
+        let date, content, draft, backgroundColor, textColor, summary
+        const data = req.body
+        date = data.date
+        content = data.content
+        draft = data.draft
+        backgroundColor = data.backgroundColor
+        textColor = data.textColor
+        summary = data.summary
+        const post = {
+            date,
+            content,
+            summary,
+            draft,
+            backgroundColor,
+            textColor
+        }
+        PostModel.findByIdAndUpdate(postID , post, (err,updatedDoc)=>{
+            if(err) res.json(err)
+            else{
+                res.sendStatus(200)
+            }
+        })
     }
 ]
 
