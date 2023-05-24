@@ -283,6 +283,15 @@ exports.publishPost = async(req,res,next)=>{
     })
 }
 
+exports.unpublsihPost = async(req,res,next)=>{
+    const postid = req.params.postid
+    PostModel.findByIdAndUpdate( postid, {draft : true},(err)=>{
+        if(err) res.sendStatus(500)
+        else{
+            res.sendStatus(200)
+        }
+    })
+}
 
 
 exports.removePost = async(req,res,next)=>{

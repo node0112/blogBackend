@@ -26,6 +26,8 @@ router.post('/:postid/edit', postsController.updatePost) //send updated post to 
 
 router.post('/:postid/publish', postsController.publishPost) //publish post by setting draft mode to false
 
+router.post('/:postid/unpublish', postsController.unpublsihPost) //publish post by setting draft mode to true
+
 router.post('/:postid/remove', postsController.removePost) //remove post from db [works]
 
 
