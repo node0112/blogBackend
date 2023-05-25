@@ -1,16 +1,15 @@
-const User = require('../models/UserModel')
-const bcrypt = require("bcryptjs")
-const passport = require("passport"); // use other forms of auth
+
 const { check, validationResult } = require("express-validator"); //validator
-const async = require("async")
-const jwt = require("jsonwebtoken")
+const axios = require('axios') //get axios for external request to facts server
 
 const PostModel = require('../models/PostModel')
 const helpers = require("./helpers/tokenHelpers");
 const CommentModel = require('../models/CommentModel');
+const FactModel = require('../models/FactModel');
 
 const isAccessTokenValid = helpers.isAccessTokenValid
 const splitAuthToken = helpers.splitAuthToken
+
 
 
 
@@ -291,6 +290,28 @@ exports.unpublsihPost = async(req,res,next)=>{
             res.sendStatus(200)
         }
     })
+}
+
+exports.getFact = async (req,res,next) =>{
+
+    const api = axios.create({
+        baseURL: "https://api.api-ninjas.com/v1"
+    })
+    api.get('/facts',{
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Api-Key': process.env.FACTS_API //get api key from env and set it before the request
+        }
+    }).then(data =>{
+        res.send(data.data)
+    })
+    .catch(err =>{
+        res.send(err.message)
+    })
+
+    // FactModel.find((fact,err)=>{
+    //     //if date is older than 24 hours
+    // })
 }
 
 
