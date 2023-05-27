@@ -293,7 +293,28 @@ exports.unpublsihPost = async(req,res,next)=>{
 }
 
 exports.getFact = async (req,res,next) =>{
+    let currentFact = await FactModel.find() //returns array of one fact stored in db along with date
+    currentFact = currentFact[0]
+    let factDate = currentFact.date
+    factDate = new Date(factDate)
+    
+    factDate = factDate.getDay()
+    //if new day then:
+    let currDate = new Date()
+    let currDay = currDate.getDay() 
+    
+    if(factDate === 6 && currDay === 0){ //makes sure the fact changes for a new week as day changes to 0
+        return getNewFact(res, currDate)
+    }
+    if(currDay > factDate){   //if the day chagnes, then get a new fact from the api
+        getNewFact(res, currDate) 
+    }
+    else{
+        res.json(currentFact)
+    }
+}
 
+async function getNewFact(res,currDate){
     const api = axios.create({
         baseURL: "https://api.api-ninjas.com/v1"
     })
@@ -303,15 +324,23 @@ exports.getFact = async (req,res,next) =>{
             'X-Api-Key': process.env.FACTS_API //get api key from env and set it before the request
         }
     }).then(data =>{
-        res.send(data.data)
+        FactModel.deleteMany({}, err =>{ //after deleting the old fact
+            if(err){
+                res.sendStatus(500)
+            }
+            let fact = data.data[0].fact
+            const factFormat = {
+                fact,
+                date : currDate
+            }
+            FactModel(factFormat).save((err,fact)=>{
+                if(err) return res.sendStatus(500)
+                return res.send(fact)
+            })
+            }) //delete all previous facts
     })
     .catch(err =>{
-        res.send(err.message)
     })
-
-    // FactModel.find((fact,err)=>{
-    //     //if date is older than 24 hours
-    // })
 }
 
 

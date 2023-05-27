@@ -1,9 +1,9 @@
 
 const mongoose = require('mongoose')
 
-const FactSchema = new mongoose.Schema({
+const Facts = new mongoose.Schema({
     fact: {type: String, required: true},
     date : {type: Date, required: true},
 })
 
-module.exports = mongoose.model("FactSchema", FactSchema)
+module.exports = mongoose.model("Fact", Facts)
