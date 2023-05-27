@@ -340,6 +340,7 @@ async function getNewFact(res,currDate){
             }) //delete all previous facts
     })
     .catch(err =>{
+        res.sendStatus(500)
     })
 }
 
