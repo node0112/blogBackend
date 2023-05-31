@@ -292,6 +292,24 @@ exports.unpublsihPost = async(req,res,next)=>{
     })
 }
 
+exports.searchPost =[   
+    check("search")
+    .trim()
+    .isLength({min: 5})
+    .withMessage("Invalid Search")
+    .escape(),
+
+    async (req,res,next) =>{
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            res.json(errors)
+            return
+        }
+        let searchQuery = req.body.search
+        let searchResults = await PostModel.find({content: searchQuery})
+        res.json(searchResults)
+    }
+]
 exports.getFact = async (req,res,next) =>{
     let currentFact = await FactModel.find() //returns array of one fact stored in db along with date
     currentFact = currentFact[0]
@@ -314,7 +332,7 @@ exports.getFact = async (req,res,next) =>{
     }
 }
 
-async function getNewFact(res,currDate){
+async function getNewFact(res,currDate){ //updates current fact in the database
     const api = axios.create({
         baseURL: "https://api.api-ninjas.com/v1"
     })

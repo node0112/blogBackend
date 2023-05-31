@@ -30,5 +30,8 @@ router.post('/:postid/unpublish', postsController.unpublsihPost) //publish post 
 
 router.post('/:postid/remove', postsController.removePost) //remove post from db [works]
 
+router.post('/search/', postsController.searchPost) //search using the content field
+
+
 
 module.exports = router
