@@ -298,15 +298,15 @@ exports.searchPost =[
     .isLength({min: 5})
     .withMessage("Invalid Search")
     .escape(),
-
-    async (req,res,next) =>{
+    async (req,res) =>{
         const errors = validationResult(req)
         if(!errors.isEmpty()){
             res.json(errors)
             return
         }
         let searchQuery = req.body.search
-        let searchResults = await PostModel.find({content: searchQuery})
+        console.log(searchQuery)
+        let searchResults = await PostModel.find({$text :{$search: searchQuery}, draft: false}) //find post content that matches the given search params
         res.json(searchResults)
     }
 ]

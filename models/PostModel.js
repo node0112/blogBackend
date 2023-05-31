@@ -12,8 +12,9 @@ const PostSchema = new mongoose.Schema({
     content: {type: String, required: true, minLength: 3},
     draft: {type: Boolean, required: true},
     backgroundColor : {type: String, required: true},
-    
     textColor: {type: String, required: true},
 })
+
+PostSchema.index({content: 'text', title: 'text'})
 
 module.exports = mongoose.model("Post", PostSchema)
