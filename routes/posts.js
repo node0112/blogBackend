@@ -10,17 +10,19 @@ router.get('/:postid/comments', postsController.fetchComments) //get comments fo
 
 router.post('/:userid/post', postsController.createPost) // create post for specified user [needs completion in controller]
 
+router.get('/:userid/userposts', postsController.getUserPosts)
+
 //--------------------===== test routes below ====----------------------------->
 
-router.get('/:postid', postsController.fetchPost) // get specific post [working ]
+router.get('/:postid', postsController.fetchPost) // get specific post 
 
-router.post('/:postid/upvote', postsController.upvotePost) //upvote a post [working]
+router.post('/:postid/upvote', postsController.upvotePost) //upvote a post 
 
-router.post('/:postid/downvote', postsController.downvotePost) //upvote a post  [working]
+router.post('/:postid/downvote', postsController.downvotePost) //upvote a post  
 
-router.post('/comment/:commentid/upvote', postsController.upvoteComment) // add comment to post [works]
+router.post('/comment/:commentid/upvote', postsController.upvoteComment) // add comment to post
 
-router.post('/comment/:commentid/downvote', postsController.downvoteComment) // add comment to post [works]
+router.post('/comment/:commentid/downvote', postsController.downvoteComment) // add comment to post
 
 router.post('/:postid/edit', postsController.updatePost) //send updated post to database
 
@@ -28,7 +30,7 @@ router.post('/:postid/publish', postsController.publishPost) //publish post by s
 
 router.post('/:postid/unpublish', postsController.unpublsihPost) //publish post by setting draft mode to true
 
-router.post('/:postid/remove', postsController.removePost) //remove post from db [works]
+router.post('/:postid/remove', postsController.removePost) //remove post from db
 
 router.post('/search', postsController.searchPost) //search using the content field
 

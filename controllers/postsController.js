@@ -109,6 +109,23 @@ exports.getPosts =  async (req,res,next)=>{
     res.json({posts})
 }
 
+exports.getUserPosts = async(req,res)=>{
+    const user = req.params.userid
+    // const posts = await PostModel.find({user: user})
+    // if(posts){
+    //     res.json({posts})
+    // }
+    // else res.sendStatus(500)
+    PostModel.find({user: user},(err, posts)=>{
+        if(err){
+            res.sendStatus(500)
+        }
+        else{
+            res.json(posts)
+        }
+    })
+}
+
 exports.fetchPost = async (req,res,next)=>{ 
     //get single post from db
     const postid = req.params.postid
