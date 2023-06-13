@@ -152,6 +152,11 @@ exports.addComment = [ //<----- needs to be completed
      .isLength({min: 3})
      .escape(),
 
+     check("username")
+     .trim()
+     .isLength({min: 3})
+     .escape(),
+
 
     async (req,res)=>{
         const errors = validationResult(req)
@@ -180,7 +185,7 @@ exports.addComment = [ //<----- needs to be completed
 exports.fetchComments = 
     async (req,res,next) => {
     const postid = req.params.postid
-    let comments = await CommentModel.find({post: postid})                                                                                                         
+    let comments = await CommentModel.find({post: postid}).populate(['user'])                                                                                                    
     return res.json({comments})
 }
 

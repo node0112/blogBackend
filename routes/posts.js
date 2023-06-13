@@ -12,8 +12,6 @@ router.post('/:userid/post', postsController.createPost) // create post for spec
 
 router.get('/:userid/userposts', postsController.getUserPosts)
 
-//--------------------===== test routes below ====----------------------------->
-
 router.get('/:postid', postsController.fetchPost) // get specific post 
 
 router.post('/:postid/upvote', postsController.upvotePost) //upvote a post 
