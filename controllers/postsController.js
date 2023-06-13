@@ -178,6 +178,7 @@ exports.addComment = [ //<----- needs to be completed
         let commentDb = await comment.save(function (error){
             if(error) return res.sendStatus(500)
         return res.json({commentDb})
+        })
     }
 ]
 
@@ -206,8 +207,11 @@ exports.upvoteComment = async(req,res,next)=>{
     //increase likes by one
     const id = req.params.commentid
     await CommentModel.findByIdAndUpdate(id, {$inc: { likes: 1}})
-    let result = await CommentModel.findById(id)
-    res.json({result})
+    CommentModel.findById(id).then(resData=>{
+        res.sendStatus(200)
+    }).catch(err=>{
+        res.sendStatus(500)
+    })
 }
 
 exports.downvoteComment = async(req,res,next)=>{
