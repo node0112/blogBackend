@@ -177,7 +177,6 @@ exports.addComment = [ //<----- needs to be completed
         let comment = new CommentModel(commentForm)
         let commentDb = await comment.save(function (error){
             if(error) return res.sendStatus(500)
-        })
         return res.json({commentDb})
     }
 ]
@@ -185,7 +184,7 @@ exports.addComment = [ //<----- needs to be completed
 exports.fetchComments = 
     async (req,res,next) => {
     const postid = req.params.postid
-    let comments = await CommentModel.find({post: postid}).populate(['user'])                                                                                                    
+    let comments = await CommentModel.find({post: postid})                                                                                      
     return res.json({comments})
 }
 
