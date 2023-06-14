@@ -136,7 +136,7 @@ exports.fetchPost = async (req,res,next)=>{
 exports.addComment = [ //<----- needs to be completed
     check("comment")
      .trim()
-     .isLength({min: 5})
+     .isLength({min: 3})
      .withMessage("Comment must have at least 5 characters")
      .escape(),
 
@@ -166,18 +166,20 @@ exports.addComment = [ //<----- needs to be completed
         const date = req.body.date
         const text = req.body.comment
         const user = req.body.user
+        const username = req.body.username
         const postid = req.params.postid
         const commentForm = {
             post: postid,
             comment: text,
             user: user,
+            username,
             date: date,
             likes: 0,
         }
         let comment = new CommentModel(commentForm)
         let commentDb = await comment.save(function (error){
-            if(error) return res.sendStatus(500)
-        return res.json({commentDb})
+            if(error){ console.log(error) ;return res.sendStatus(500)}
+        return res.sendStatus(200)
         })
     }
 ]
